@@ -1,6 +1,5 @@
 package top.anyel.rrss.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -9,11 +8,10 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class Comment {
+public class CommentResponse {
     private Long id;
-    private Long postId;
+    private Long commentId;
     private Long userId;
     private String content;
     private LocalDateTime timeCreated;
-    private List<CommentResponse> comment;
 }

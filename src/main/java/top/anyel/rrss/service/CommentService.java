@@ -10,6 +10,10 @@ import java.util.List;
 public class CommentService {
     CommentRepository commentRepository = new CommentRepository();
 
+    public int countCommentsByPostId(Long postId) {
+        return commentRepository.countCommentsByPostId(postId);
+    }
+
     public Comment addComment(Comment comment) {
         return commentRepository.addComment(comment);
     }

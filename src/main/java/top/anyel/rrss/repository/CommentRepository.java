@@ -27,6 +27,16 @@ public class CommentRepository {
         }
         return null;
     }
+    // contar cuantos comentarios tiene un post
+    public int countCommentsByPostId(Long postId) {
+        int count = 0;
+        for (Comment comment : comments) {
+            if (comment.getPostId().equals(postId)) {
+                count++;
+            }
+        }
+        return count;
+    }
 
     public Comment updateById(Long id, Comment comment) {
         for (Comment c : comments) {
