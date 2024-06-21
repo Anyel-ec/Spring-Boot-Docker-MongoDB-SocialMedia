@@ -46,7 +46,7 @@ public class CommentController {
     }
 
 
-    @GetMapping("/contarComentariosPorPost/{postId}")
+    @GetMapping("/count/{postId}")
     public int countCommentsByPostId(@PathVariable Long postId) {
         return commentService.countCommentsByPostId(postId);
     }

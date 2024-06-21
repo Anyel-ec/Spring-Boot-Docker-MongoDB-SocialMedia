@@ -15,9 +15,7 @@ public class LikeRepository {
         return like;
     }
 
-    public List<Like> getAll (){
+    public List<Like> getAll () {
         return likes;
     }
-
-
 }
