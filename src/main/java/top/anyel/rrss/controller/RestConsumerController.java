@@ -3,12 +3,11 @@ package top.anyel.rrss.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import top.anyel.rrss.model.User;
 import top.anyel.rrss.service.RestConsumerService;
 
-@Controller
+@RestController
 @RequestMapping("/restConsumer")
 public class RestConsumerController {
 
@@ -19,9 +18,13 @@ public class RestConsumerController {
         this.restConsumerService = restConsumerService;
     }
 
-    @GetMapping("/getUser")
-    @ResponseBody
+    @GetMapping("/getUserAll")
     public String getUser() {
-        return restConsumerService.getUser();
+        return restConsumerService.getUserAsJson();
+    }
+
+    @GetMapping("/getUserByID/{userId}")
+    public String getUserByID(@PathVariable Long userId) {
+        return restConsumerService.getUserByID(userId);
     }
 }

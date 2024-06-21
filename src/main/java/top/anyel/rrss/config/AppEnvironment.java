@@ -1,4 +1,4 @@
-package top.anyel.rrss.config.constants;
+package top.anyel.rrss.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.stereotype.Component;

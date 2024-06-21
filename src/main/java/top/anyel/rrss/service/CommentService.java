@@ -1,5 +1,6 @@
 package top.anyel.rrss.service;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import top.anyel.rrss.model.Comment;
 import top.anyel.rrss.repository.CommentRepository;
@@ -31,6 +32,31 @@ public class CommentService {
 
     public String deleteCommentById(Long id) {
         return commentRepository.deleteCommentById(id);
+    }
+
+    public List<Comment> getCommentsByPostId(Long postId) {
+        return commentRepository.getCommentsByPostId(postId);
+    }
+
+    public  Comment addReplyToComment(Long commentId, Comment reply) {
+        return commentRepository.addReplyToComment(commentId, reply);
+    }
+
+
+
+    public Comment updateComment(Long id, Comment updatedComment) {
+        Comment existingComment = commentRepository.getCommentById(id);
+        if (existingComment != null) {
+            return commentRepository.updateComment(id, updatedComment);
+        }
+        return null; // Manejo de error si el comentario no existe
+    }
+
+
+
+
+    public void deleteComment(Long id) {
+        commentRepository.deleteComment(id);
     }
 
 

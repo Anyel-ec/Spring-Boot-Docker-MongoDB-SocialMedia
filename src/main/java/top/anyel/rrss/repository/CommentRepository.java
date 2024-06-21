@@ -5,14 +5,18 @@ import top.anyel.rrss.model.Comment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Repository
 public class CommentRepository {
     List<Comment> comments = new ArrayList<>();
+    private final AtomicLong idGenerator = new AtomicLong(1); // Inicialización con 1
 
     public Comment addComment(Comment comment) {
+        comment.setId(idGenerator.getAndIncrement());
         comments.add(comment);
-       return comment;
+        return comment;
     }
 
     public List<Comment> findAll() {
@@ -57,6 +61,45 @@ public class CommentRepository {
         }
         return "Comment not found";
     }
+
+    public List<Comment> getCommentsByPostId(Long postId) {
+        return comments.stream()
+                .filter(comment -> comment.getPostId().equals(postId))
+                .collect(Collectors.toList());
+    }
+
+    // Nuevo método para agregar un subcomentario
+    public Comment addReplyToComment(Long commentId, Comment reply) {
+        Comment parentComment = getCommentById(commentId);
+        if (parentComment != null) {
+            if (parentComment.getComments() == null) {
+                parentComment.setComments(new ArrayList<>()); // Asegura que la lista no sea null
+            }
+            reply.setId(idGenerator.getAndIncrement());
+            parentComment.getComments().add(reply);
+            return reply;
+        }
+        return null;
+    }
+
+    public Comment updateComment(Long id, Comment updatedComment) {
+        for (int i = 0; i < comments.size(); i++) {
+            if (comments.get(i).getId().equals(id)) {
+                comments.set(i, updatedComment);
+                return updatedComment;
+            }
+        }
+        return null; // Si no se encuentra el comentario
+    }
+
+    public void deleteComment(Long id) {
+        comments.removeIf(comment -> comment.getId().equals(id));
+    }
+
+
+
+
+
 
 
 }

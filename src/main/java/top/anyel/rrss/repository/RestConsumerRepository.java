@@ -1,9 +1,10 @@
 package top.anyel.rrss.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
-import top.anyel.rrss.config.constants.AppEnvironment;
+import top.anyel.rrss.config.AppEnvironment;
 @Repository
 public class RestConsumerRepository {
 
@@ -20,10 +21,15 @@ public class RestConsumerRepository {
 
     public static void main(String[] args) {
         RestConsumerRepository restConsumerRepository = new RestConsumerRepository(new AppEnvironment());
-        System.out.println(restConsumerRepository.getUser());
+        System.out.println(restConsumerRepository.getUserAsJson());
     }
 
-    public String getUser() {
-        return restTemplate.getForObject(BASE_URL + API_USER, String.class);
+    public String getUserAsJson() {
+        ResponseEntity<String> response = restTemplate.getForEntity(BASE_URL + API_USER, String.class);
+        return response.getBody();
+    }
+
+    public String getUserByID(Long userId) {
+        return restTemplate.getForObject(BASE_URL + API_USER + "/" + userId, String.class);
     }
 }
