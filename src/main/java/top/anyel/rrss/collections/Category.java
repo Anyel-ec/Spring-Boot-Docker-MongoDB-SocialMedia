@@ -1,4 +1,4 @@
-package top.anyel.rrss.model;
+package top.anyel.rrss.collections;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,5 +11,5 @@ public class Category {
     private Long id;
     private String name;
     private String description;
-    private List<Post> post;
+    private List<Post> posts;
 }

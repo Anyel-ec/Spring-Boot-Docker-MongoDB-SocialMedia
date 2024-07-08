@@ -1,4 +1,4 @@
-package top.anyel.rrss.model;
+package top.anyel.rrss.collections;
 
 
 import lombok.AllArgsConstructor;

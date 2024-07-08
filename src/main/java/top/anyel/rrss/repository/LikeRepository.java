@@ -1,7 +1,7 @@
 package top.anyel.rrss.repository;
 
 import org.springframework.stereotype.Repository;
-import top.anyel.rrss.model.Like;
+import top.anyel.rrss.collections.Like;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,7 @@
 package top.anyel.rrss.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
-import top.anyel.rrss.model.User;
 import top.anyel.rrss.service.RestConsumerService;
 
 @RestController

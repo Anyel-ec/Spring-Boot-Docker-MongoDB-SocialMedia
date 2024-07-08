@@ -3,7 +3,7 @@ package top.anyel.rrss.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import top.anyel.rrss.model.Comment;
+import top.anyel.rrss.collections.Comment;
 import top.anyel.rrss.service.CommentService;
 
 import java.util.List;
@@ -36,8 +36,6 @@ public class CommentController {
         return ResponseEntity.notFound().build();
     }
 
-    // Endpoint para eliminar un comentario
-
 
     // Endpoint para agregar respuesta a un comentario
     @DeleteMapping("/{id}/delete")
@@ -57,10 +55,10 @@ public class CommentController {
         return commentService.getCommentsByPostId(postId);
     }
 
-    @PostMapping("/{commentId}/reply")
+    /*@PostMapping("/{commentId}/reply")
     public ResponseEntity<Comment> addReplyToComment(@PathVariable Long commentId, @RequestBody Comment reply) {
         Comment savedReply = commentService.addReplyToComment(commentId, reply);
         return ResponseEntity.ok(savedReply);
-    }
+    }*/
 
 }

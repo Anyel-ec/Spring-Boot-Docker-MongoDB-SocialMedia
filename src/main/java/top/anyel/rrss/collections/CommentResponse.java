@@ -1,10 +1,9 @@
-package top.anyel.rrss.model;
+package top.anyel.rrss.collections;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
