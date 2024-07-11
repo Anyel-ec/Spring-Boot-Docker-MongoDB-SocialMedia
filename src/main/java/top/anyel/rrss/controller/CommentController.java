@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import top.anyel.rrss.collections.Comment;
+import top.anyel.rrss.collections.CommentResponse;
 import top.anyel.rrss.service.CommentService;
 
 import java.util.List;
@@ -53,6 +54,15 @@ public class CommentController {
     @GetMapping("/post/{postId}")
     public List<Comment> getCommentsByPostId(@PathVariable Long postId) {
         return commentService.getCommentsByPostId(postId);
+    }
+    @PostMapping("/{commentId}/reply")
+    public ResponseEntity<Comment> addReplyToComment(@PathVariable Long commentId, @RequestBody CommentResponse response) {
+        Comment comment = commentService.addResponseToComment(commentId, response);
+        if (comment != null) {
+            return ResponseEntity.ok(comment);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /*@PostMapping("/{commentId}/reply")

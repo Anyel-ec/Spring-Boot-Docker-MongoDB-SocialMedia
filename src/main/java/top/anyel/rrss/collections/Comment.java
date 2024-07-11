@@ -4,6 +4,7 @@ package top.anyel.rrss.collections;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.lang.annotation.Documented;
@@ -21,4 +22,8 @@ public class Comment {
     private Long userId;
     private String content;
     private LocalDateTime timeCreated;
+
+    @DBRef // relations if one comment has many responses
+    private List<CommentResponse> responses;
+
 }

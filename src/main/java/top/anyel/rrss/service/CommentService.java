@@ -3,6 +3,7 @@ package top.anyel.rrss.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.anyel.rrss.collections.Comment;
+import top.anyel.rrss.collections.CommentResponse;
 import top.anyel.rrss.repository.CommentRepository;
 
 import java.util.List;
@@ -41,6 +42,16 @@ public class CommentService {
         return commentRepository.getCommentsByPostId(postId);
     }
 
+    public Comment addResponseToComment(Long commentId, CommentResponse response) {
+        Comment comment = commentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            response.setCommentId(commentId);
+            comment.getResponses().add(response);
+            commentRepository.save(comment);
+            return comment;
+        }
+        return null; // O manejar el caso en que el comentario no exista
+    }
 
 
 }
