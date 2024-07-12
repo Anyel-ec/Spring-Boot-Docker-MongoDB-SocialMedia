@@ -1,5 +1,6 @@
 package top.anyel.rrss.service;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.anyel.rrss.collections.Comment;
@@ -7,6 +8,7 @@ import top.anyel.rrss.collections.CommentResponse;
 import top.anyel.rrss.repository.CommentRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CommentService {
@@ -17,20 +19,27 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
-    public Comment getCommentById(Long id) {
+    public Comment getCommentById(String id) {
         return commentRepository.findById(id).orElse(null);
     }
 
     public Comment addComment(Comment comment) {
+        if (comment.getResponses() != null) {
+            comment.getResponses().forEach(reply -> {
+                if (reply.getId() == null) {
+                    reply.setId(UUID.randomUUID().toString());
+                }
+            });
+        }
         return commentRepository.save(comment);
     }
 
-    public Comment updateComment(Long id, Comment updatedComment) {
+    public Comment updateComment(String id, Comment updatedComment) {
         updatedComment.setId(id);
         return commentRepository.save(updatedComment);
     }
 
-    public void deleteComment(Long id) {
+    public void deleteComment(String id) {
         commentRepository.deleteById(id);
     }
 
@@ -42,16 +51,7 @@ public class CommentService {
         return commentRepository.getCommentsByPostId(postId);
     }
 
-    public Comment addResponseToComment(Long commentId, CommentResponse response) {
-        Comment comment = commentRepository.findById(commentId).orElse(null);
-        if (comment != null) {
-            response.setCommentId(commentId);
-            comment.getResponses().add(response);
-            commentRepository.save(comment);
-            return comment;
-        }
-        return null; // O manejar el caso en que el comentario no exista
-    }
+
 
 
 }

@@ -1,5 +1,6 @@
 package top.anyel.rrss.controller;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class CommentController {
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<Comment> updateComment(@PathVariable Long id, @RequestBody Comment updatedComment) {
+    public ResponseEntity<Comment> updateComment(@PathVariable String id, @RequestBody Comment updatedComment) {
         Comment existingComment = commentService.getCommentById(id);
         if (existingComment != null) {
             Comment updated = commentService.updateComment(id, updatedComment);
@@ -40,7 +41,7 @@ public class CommentController {
 
     // Endpoint para agregar respuesta a un comentario
     @DeleteMapping("/{id}/delete")
-    public void deleteComment(@PathVariable Long id) {
+    public void deleteComment(@PathVariable String id) {
         commentService.deleteComment(id);
     }
 
@@ -55,15 +56,7 @@ public class CommentController {
     public List<Comment> getCommentsByPostId(@PathVariable Long postId) {
         return commentService.getCommentsByPostId(postId);
     }
-    @PostMapping("/{commentId}/reply")
-    public ResponseEntity<Comment> addReplyToComment(@PathVariable Long commentId, @RequestBody CommentResponse response) {
-        Comment comment = commentService.addResponseToComment(commentId, response);
-        if (comment != null) {
-            return ResponseEntity.ok(comment);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+
 
     /*@PostMapping("/{commentId}/reply")
     public ResponseEntity<Comment> addReplyToComment(@PathVariable Long commentId, @RequestBody Comment reply) {
