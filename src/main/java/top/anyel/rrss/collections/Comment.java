@@ -26,7 +26,6 @@ public class Comment {
     private String content;
     private LocalDateTime timeCreated;
 
-    @DBRef // relations if one comment has many responses
     private List<CommentResponse> responses;
 
 
