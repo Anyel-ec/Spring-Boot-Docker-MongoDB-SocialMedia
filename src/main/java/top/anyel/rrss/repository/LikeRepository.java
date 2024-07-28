@@ -3,19 +3,16 @@ package top.anyel.rrss.repository;
 import org.springframework.stereotype.Repository;
 import top.anyel.rrss.collections.Like;
 
-import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+
 @Repository
-public class LikeRepository {
+public interface LikeRepository extends MongoRepository<Like, String> {
 
-    List<Like> likes = new ArrayList<>();
+    List<Like> findByPostId(Long postId);
 
-    public Like addLike(Like like) {
-        likes.add(like);
-        return like;
-    }
+    long countByPostIdAndLiked(Long postId, boolean liked);
 
-    public List<Like> getAll () {
-        return likes;
-    }
+    Like findByPostIdAndUserId(Long postId, Long userId);
 }
