@@ -39,6 +39,15 @@ public class CommentService {
         return commentRepository.save(updatedComment);
     }
 
+    public Comment updateCommentByPostId(Long postId, String id, Comment updatedComment) {
+        Comment existingComment = commentRepository.findByPostIdAndId(postId, id);
+        if (existingComment != null) {
+            updatedComment.setId(existingComment.getId());
+            return commentRepository.save(updatedComment);
+        }
+        return null;
+    }
+
     public void deleteComment(String id) {
         commentRepository.deleteById(id);
     }

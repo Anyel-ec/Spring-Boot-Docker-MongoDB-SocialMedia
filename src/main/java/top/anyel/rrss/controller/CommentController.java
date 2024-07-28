@@ -57,6 +57,15 @@ public class CommentController {
         return commentService.getCommentsByPostId(postId);
     }
 
+    @PutMapping("/post/{postId}/comment/{id}/update")
+    public ResponseEntity<Comment> updateCommentByPostId(@PathVariable Long postId, @PathVariable String id, @RequestBody Comment updatedComment) {
+        Comment updated = commentService.updateCommentByPostId(postId, id, updatedComment);
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 
     /*@PostMapping("/{commentId}/reply")
     public ResponseEntity<Comment> addReplyToComment(@PathVariable Long commentId, @RequestBody Comment reply) {

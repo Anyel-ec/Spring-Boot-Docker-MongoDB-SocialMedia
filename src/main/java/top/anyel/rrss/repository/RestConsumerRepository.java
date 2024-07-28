@@ -11,17 +11,19 @@ public class RestConsumerRepository {
     private final String BASE_URL;
     private final String API_USER;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public RestConsumerRepository(AppEnvironment appEnvironment) {
+    public RestConsumerRepository(AppEnvironment appEnvironment, RestTemplate restTemplate) {
         this.BASE_URL = appEnvironment.getBaseUrl();
         this.API_USER = appEnvironment.getApiUserPath();
+        this.restTemplate = restTemplate;
     }
 
     public static void main(String[] args) {
-        RestConsumerRepository restConsumerRepository = new RestConsumerRepository(new AppEnvironment());
+        RestConsumerRepository restConsumerRepository = new RestConsumerRepository(new AppEnvironment(), new RestTemplate());
         System.out.println(restConsumerRepository.getUserAsJson());
+        System.out.println(restConsumerRepository.getUserByID(4L));
     }
 
     public String getUserAsJson() {
