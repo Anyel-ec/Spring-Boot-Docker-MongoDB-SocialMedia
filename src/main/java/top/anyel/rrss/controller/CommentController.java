@@ -65,6 +65,14 @@ public class CommentController {
         }
         return ResponseEntity.notFound().build();
     }
+    @PostMapping("/{commentId}/response")
+    public ResponseEntity<Comment> addResponseToComment(@PathVariable String commentId, @RequestBody CommentResponse response) {
+        Comment updatedComment = commentService.addResponseToComment(commentId, response);
+        if (updatedComment != null) {
+            return ResponseEntity.ok(updatedComment);
+        }
+        return ResponseEntity.notFound().build();
+    }
 
 
     /*@PostMapping("/{commentId}/reply")

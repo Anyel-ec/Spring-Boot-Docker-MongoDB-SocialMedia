@@ -60,7 +60,15 @@ public class CommentService {
         return commentRepository.getCommentsByPostId(postId);
     }
 
-
+    public Comment addResponseToComment(String commentId, CommentResponse response) {
+        Comment comment = commentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            response.setId(UUID.randomUUID().toString());
+            comment.getResponses().add(response);
+            return commentRepository.save(comment);
+        }
+        return null;
+    }
 
 
 }
