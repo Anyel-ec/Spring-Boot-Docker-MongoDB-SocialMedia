@@ -15,4 +15,6 @@ public interface LikeRepository extends MongoRepository<Like, String> {
     long countByPostIdAndLiked(Long postId, boolean liked);
 
     Like findByPostIdAndUserId(Long postId, Long userId);
+
+    void deleteByPostId(Long postId);  
 }

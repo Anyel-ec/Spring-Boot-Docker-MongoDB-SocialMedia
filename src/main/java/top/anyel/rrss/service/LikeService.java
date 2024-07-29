@@ -41,4 +41,12 @@ public class LikeService {
     public void removeLike(String id) {
         likeRepository.deleteById(id);
     }
+
+    public void deleteLikesByPostId(Long postId) {
+        likeRepository.deleteByPostId(postId);
+    }
+
+    public List<Like> getALlLikes() {
+        return likeRepository.findAll();
+    }
 }

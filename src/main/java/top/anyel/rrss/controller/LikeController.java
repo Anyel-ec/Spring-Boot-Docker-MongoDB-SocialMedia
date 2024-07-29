@@ -24,6 +24,10 @@ public class LikeController {
         return likeService.getLikesByPostId(postId);
     }
 
+    @GetMapping("/")
+    public List<Like> getAllLikes() {
+        return likeService.getALlLikes();
+    }
     @GetMapping("/post/{postId}/count")
     public long countLikesByPostId(@PathVariable Long postId) {
         return likeService.countLikesByPostId(postId);
@@ -38,6 +42,12 @@ public class LikeController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removeLike(@PathVariable String id) {
         likeService.removeLike(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/post/{postId}/delete")
+    public ResponseEntity<Void> deleteLikesByPostId(@PathVariable Long postId) {
+        likeService.deleteLikesByPostId(postId);
         return ResponseEntity.noContent().build();
     }
 }

@@ -75,10 +75,28 @@ public class CommentController {
     }
 
 
-    /*@PostMapping("/{commentId}/reply")
-    public ResponseEntity<Comment> addReplyToComment(@PathVariable Long commentId, @RequestBody Comment reply) {
-        Comment savedReply = commentService.addReplyToComment(commentId, reply);
-        return ResponseEntity.ok(savedReply);
-    }*/
+    @DeleteMapping("/post/{postId}/delete")
+    public ResponseEntity<Void> deleteCommentsByPostId(@PathVariable Long postId) {
+        commentService.deleteCommentsByPostId(postId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{commentId}/response/{responseId}/update")
+    public ResponseEntity<Comment> updateResponse(@PathVariable String commentId, @PathVariable String responseId, @RequestBody CommentResponse updatedResponse) {
+        Comment updatedComment = commentService.updateResponse(commentId, responseId, updatedResponse);
+        if (updatedComment != null) {
+            return ResponseEntity.ok(updatedComment);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{commentId}/response/{responseId}/delete")
+    public ResponseEntity<Comment> deleteResponse(@PathVariable String commentId, @PathVariable String responseId) {
+        Comment updatedComment = commentService.deleteResponse(commentId, responseId);
+        if (updatedComment != null) {
+            return ResponseEntity.ok(updatedComment);
+        }
+        return ResponseEntity.notFound().build();
+    }
 
 }

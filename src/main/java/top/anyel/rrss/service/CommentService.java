@@ -70,5 +70,35 @@ public class CommentService {
         return null;
     }
 
+    public void deleteCommentsByPostId(Long postId) {
+        commentRepository.deleteCommentsByPostId(postId);
+    }
+
+
+    public Comment updateResponse(String commentId, String responseId, CommentResponse updatedResponse) {
+        Comment comment = commentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            List<CommentResponse> responses = comment.getResponses();
+            for (int i = 0; i < responses.size(); i++) {
+                if (responses.get(i).getId().equals(responseId)) {
+                    updatedResponse.setId(responseId);
+                    responses.set(i, updatedResponse);
+                    return commentRepository.save(comment);
+                }
+            }
+        }
+        return null;
+    }
+
+    public Comment deleteResponse(String commentId, String responseId) {
+        Comment comment = commentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            List<CommentResponse> responses = comment.getResponses();
+            responses.removeIf(response -> response.getId().equals(responseId));
+            return commentRepository.save(comment);
+        }
+        return null;
+    }
+
 
 }
