@@ -7,6 +7,7 @@ import top.anyel.rrss.collections.Comment;
 import top.anyel.rrss.collections.CommentResponse;
 import top.anyel.rrss.repository.CommentRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,9 +35,13 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public Comment updateComment(String id, Comment updatedComment) {
-        updatedComment.setId(id);
-        return commentRepository.save(updatedComment);
+    public Comment updateComment(String id, Comment updatedComment, Long userId) {
+        Comment existingComment = commentRepository.findById(id).orElse(null);
+        if (existingComment != null && existingComment.getUserId().equals(userId)) {
+            updatedComment.setId(id);
+            return commentRepository.save(updatedComment);
+        }
+        return null;
     }
 
     public Comment updateCommentByPostId(Long postId, String id, Comment updatedComment) {
@@ -48,10 +53,12 @@ public class CommentService {
         return null;
     }
 
-    public void deleteComment(String id) {
-        commentRepository.deleteById(id);
+    public void deleteComment(String id, Long userId) {
+        Comment existingComment = commentRepository.findById(id).orElse(null);
+        if (existingComment != null && existingComment.getUserId().equals(userId)) {
+            commentRepository.deleteById(id);
+        }
     }
-
     public int countCommentsByPostId(Long postId) {
         return commentRepository.countCommentsByPostId(postId);
     }
@@ -75,14 +82,13 @@ public class CommentService {
     }
 
 
-    public Comment updateResponse(String commentId, String responseId, CommentResponse updatedResponse) {
+    public Comment updateResponse(String commentId, String responseId, CommentResponse updatedResponse, Long userId) {
         Comment comment = commentRepository.findById(commentId).orElse(null);
         if (comment != null) {
-            List<CommentResponse> responses = comment.getResponses();
-            for (int i = 0; i < responses.size(); i++) {
-                if (responses.get(i).getId().equals(responseId)) {
-                    updatedResponse.setId(responseId);
-                    responses.set(i, updatedResponse);
+            for (CommentResponse response : comment.getResponses()) {
+                if (response.getId().equals(responseId) && response.getUserId().equals(userId)) {
+                    response.setContent(updatedResponse.getContent());
+                    response.setTimeCreated(LocalDateTime.now());
                     return commentRepository.save(comment);
                 }
             }
@@ -90,11 +96,10 @@ public class CommentService {
         return null;
     }
 
-    public Comment deleteResponse(String commentId, String responseId) {
+    public Comment deleteResponse(String commentId, String responseId, Long userId) {
         Comment comment = commentRepository.findById(commentId).orElse(null);
         if (comment != null) {
-            List<CommentResponse> responses = comment.getResponses();
-            responses.removeIf(response -> response.getId().equals(responseId));
+            comment.getResponses().removeIf(response -> response.getId().equals(responseId) && response.getUserId().equals(userId));
             return commentRepository.save(comment);
         }
         return null;

@@ -28,23 +28,6 @@ public class CommentController {
         return ResponseEntity.ok(savedComment);
     }
 
-    @PutMapping("/{id}/update")
-    public ResponseEntity<Comment> updateComment(@PathVariable String id, @RequestBody Comment updatedComment) {
-        Comment existingComment = commentService.getCommentById(id);
-        if (existingComment != null) {
-            Comment updated = commentService.updateComment(id, updatedComment);
-            return ResponseEntity.ok(updated);
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-
-    // Endpoint para agregar respuesta a un comentario
-    @DeleteMapping("/{id}/delete")
-    public void deleteComment(@PathVariable String id) {
-        commentService.deleteComment(id);
-    }
-
 
     @GetMapping("/count/{postId}")
     public int countCommentsByPostId(@PathVariable Long postId) {
@@ -81,9 +64,24 @@ public class CommentController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}/update")
+    public ResponseEntity<Comment> updateComment(@PathVariable String id, @RequestBody Comment updatedComment, @RequestParam Long userId) {
+        Comment updated = commentService.updateComment(id, updatedComment, userId);
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}/delete")
+    public ResponseEntity<Void> deleteComment(@PathVariable String id, @RequestParam Long userId) {
+        commentService.deleteComment(id, userId);
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping("/{commentId}/response/{responseId}/update")
-    public ResponseEntity<Comment> updateResponse(@PathVariable String commentId, @PathVariable String responseId, @RequestBody CommentResponse updatedResponse) {
-        Comment updatedComment = commentService.updateResponse(commentId, responseId, updatedResponse);
+    public ResponseEntity<Comment> updateResponse(@PathVariable String commentId, @PathVariable String responseId, @RequestBody CommentResponse updatedResponse, @RequestParam Long userId) {
+        Comment updatedComment = commentService.updateResponse(commentId, responseId, updatedResponse, userId);
         if (updatedComment != null) {
             return ResponseEntity.ok(updatedComment);
         }
@@ -91,12 +89,13 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}/response/{responseId}/delete")
-    public ResponseEntity<Comment> deleteResponse(@PathVariable String commentId, @PathVariable String responseId) {
-        Comment updatedComment = commentService.deleteResponse(commentId, responseId);
+    public ResponseEntity<Comment> deleteResponse(@PathVariable String commentId, @PathVariable String responseId, @RequestParam Long userId) {
+        Comment updatedComment = commentService.deleteResponse(commentId, responseId, userId);
         if (updatedComment != null) {
             return ResponseEntity.ok(updatedComment);
         }
         return ResponseEntity.notFound().build();
     }
+
 
 }
