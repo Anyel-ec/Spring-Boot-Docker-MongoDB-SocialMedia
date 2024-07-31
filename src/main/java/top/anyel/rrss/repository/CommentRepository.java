@@ -1,7 +1,5 @@
 package top.anyel.rrss.repository;
 
-import org.bson.types.ObjectId;
-import org.springframework.boot.web.server.Cookie;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 import top.anyel.rrss.collections.Comment;
@@ -18,5 +16,4 @@ public interface CommentRepository extends MongoRepository<Comment, String> {
     Comment findByPostIdAndId(Long postId, String id);
 
     void deleteCommentsByPostId(Long postId);
-
 }
