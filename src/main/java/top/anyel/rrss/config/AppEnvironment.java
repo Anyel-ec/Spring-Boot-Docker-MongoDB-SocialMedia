@@ -24,9 +24,7 @@ public class AppEnvironment {
         return dotenv.get("API_USER");
     }
 
-    public static void main(String[] args) {
-        AppEnvironment appEnvironment = new AppEnvironment();
-        System.out.println(appEnvironment.getBaseUrl());
-        System.out.println(appEnvironment.getApiUserPath());
-    }
+
+
+
 }
