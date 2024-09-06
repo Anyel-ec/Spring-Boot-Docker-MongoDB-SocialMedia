@@ -12,7 +12,7 @@ import java.net.URI;
 @RequestMapping("/doc")
 public class DocController {
 
-    // redirigir a swagger: /swagger-ui. mediante url xfa
+    // Documentacion de la api
 
     @GetMapping("/")
     public ResponseEntity<Void> index() {

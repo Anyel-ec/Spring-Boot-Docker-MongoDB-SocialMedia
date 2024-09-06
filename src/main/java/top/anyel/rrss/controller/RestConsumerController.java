@@ -1,6 +1,7 @@
 package top.anyel.rrss.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import top.anyel.rrss.service.RestConsumerService;
 import top.anyel.rrss.shared.utils.logger.CustomLoggerFactory;
@@ -19,15 +20,17 @@ public class RestConsumerController {
         this.logger = loggerFactoryService.getLogger(RestConsumerController.class);
     }
 
-    @GetMapping("/getUserAll")
-    public String getUser() {
-        logger.logInfo("Requesting all users of controller");
-        return restConsumerService.getUserAsJson();
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<String> getAllUsers() {
+        logger.logInfo("Requesting all users from service");
+        String response = restConsumerService.requestAllUsers();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/getUserByID/{userId}")
-    public String getUserByID(@PathVariable Long userId) {
+    public ResponseEntity<String> getUserByID(@PathVariable Long userId) {
         logger.logInfo("Requesting user with ID: " + userId);
-        return restConsumerService.getUserByID(userId);
+        String response = restConsumerService.requestUserData(userId);
+        return ResponseEntity.ok(response);
     }
 }

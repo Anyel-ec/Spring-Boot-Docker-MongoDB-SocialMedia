@@ -23,7 +23,6 @@ public class EurekaClientApplication implements GreetingController {
     public EurekaClientApplication() {
     }
 
-
     @Override
     public String greeting() {
         return String.format(
